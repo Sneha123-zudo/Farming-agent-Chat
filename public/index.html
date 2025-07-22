@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌾 Smart Farming Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #a7d5ab, #e8f3f1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  width: 95%;
+  max-width: 600px;
+  background: #ffffffdd;
+  backdrop-filter: blur(14px);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+h1 {
+  text-align: center;
+  margin-bottom: 18px;
+  color: #0d9488;
+  font-weight: 700;
+}
+.chat-box {
+  max-height: 420px;
+  overflow-y: auto;
+  border: 2px solid #99f6e4;
+  padding: 14px;
+  border-radius: 14px;
+  background: #ecfdf5;
+}
+.message {
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 14px;
+  line-height: 1.6;
+  animation: fadeInUp 0.3s ease;
+  white-space: pre-wrap;
+  font-size: 15px;
+}
+.user {
+  background: #dbeafe;
+  text-align: right;
+  color: #1e3a8a;
+}
+.bot {
+  background: #ffffff;
+  color: #0f172a;
+}
+.input-area {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #a7f3d0;
+  font-size: 15px;
+}
+button {
+  padding: 12px 18px;
+  background-color: #0d9488;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+button:hover {
+  background-color: #0f766e;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🌱 Smart Farming Agent</h1>
+<div class="chat-box" id="chatBox"></div>
+<div class="input-area">
+  <input type="text" id="userInput" placeholder="Type your message... 🌿" />
+  <button onclick="sendMessage()">Send 🚀</button>
+</div>
+</div>
+<script>
+async function sendMessage() {
+  const input = document.getElementById("userInput");
+  const chatBox = document.getElementById("chatBox");
+  const message = input.value.trim();
+  if (!message) return;
+  const userMessage = document.createElement("div");
+  userMessage.className = "message user";
+  userMessage.textContent =  message;
+  chatBox.appendChild(userMessage);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  input.value = "";
+  const res = await fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message })
+  });
+  const data = await res.json();
+  const botMessage = document.createElement("div");
+  botMessage.className = "message bot";
+  botMessage.innerHTML = marked.parse(data.response);
+  chatBox.appendChild(botMessage);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+document.head.appendChild(script);
+</script>
+</body>
+</html>
