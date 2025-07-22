@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Coverage reports
+coverage/
+
+# Optional debug files
+*.swp
+
+# Next.js
+.next/
+
+# Yarn
+.yarn/
+.pnp.*
